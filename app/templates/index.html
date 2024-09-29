@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Activity Sharing App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Activities</title>
 </head>
 <body>
-    <h1>Welcome to the Activity Sharing App</h1>
-    <p>This is a basic template.</p>
+    <h1>Upcoming Activities</h1>
+    <ul>
+        {% for activity in activities %}
+            <li>
+                <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">{{ activity.activity_name }}</a> - {{ activity.date }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.create_activity') }}">Create New Activity</a>
 </body>
 </html>
