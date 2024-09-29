@@ -1,22 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Activity</title>
-</head>
-<body>
-    <h1>Create New Activity</h1>
+{% extends 'base.html' %}
+
+{% block title %}Create Activity{% endblock %}
+
+{% block content %}
+    <h2>Create Activity</h2>
     <form method="POST">
-        <label>Activity Name:</label>
-        <input type="text" name="activity_name" required><br>
-        <label>Description:</label>
-        <textarea name="description"></textarea><br>
-        <label>Date:</label>
-        <input type="date" name="date" required><br>
-        <label>Time:</label>
-        <input type="time" name="time" required><br>
-        <button type="submit">Create</button>
+        <label for="activity_name">Activity Name:</label>
+        <input type="text" id="activity_name" name="activity_name" required>
+        
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+        
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+        
+        <button type="submit">Create Activity</button>
     </form>
-</body>
-</html>
+{% endblock %}

@@ -97,7 +97,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.login'))
 
 # Route to display user profile
 @main.route('/profile')
@@ -111,3 +111,47 @@ def profile():
 def activity_detail(activity_id):
     activity = Activity.query.get(activity_id)
     return render_template('activity_detail.html', activity=activity)
+
+
+@main.route('/activities')
+@login_required
+def activities():
+    activities = Activity.query.all()
+    return render_template('activities.html', activities=activities)
+
+
+
+@main.route('/activities/<int:activity_id>/update', methods=['GET', 'POST'])
+@login_required
+def update_activity(activity_id):
+    activity = Activity.query.get_or_404(activity_id)
+
+    # Check if the current user is the organizer
+    if activity.organizer_id != current_user.id:
+        flash("You are not authorized to update this activity.", "danger")
+        return redirect(url_for('main.activities'))
+
+    if request.method == 'POST':
+        activity.activity_name = request.form['activity_name']
+        activity.description = request.form['description']
+        activity.date_time = f"{request.form['date']} {request.form['time']}"
+        db.session.commit()
+        flash("Activity updated successfully!", "success")
+        return redirect(url_for('main.activities'))
+
+    return render_template('update_activity.html', activity=activity)
+
+@main.route('/activities/<int:activity_id>/delete', methods=['POST'])
+@login_required
+def delete_activity(activity_id):
+    activity = Activity.query.get_or_404(activity_id)
+
+    # Check if the current user is the organizer
+    if activity.organizer_id != current_user.id:
+        flash("You are not authorized to delete this activity.", "danger")
+        return redirect(url_for('main.activities'))
+
+    db.session.delete(activity)
+    db.session.commit()
+    flash("Activity deleted successfully!", "success")
+    return redirect(url_for('main.activities'))

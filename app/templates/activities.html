@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}All Activities{% endblock %}
+
+{% block content %}
+    <h2>All Activities</h2>
+    <ul>
+        {% for activity in activities %}
+            <li>
+                <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">
+                    {{ activity.activity_name }} - {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}
+                </a>
+                {% if activity.organizer_id == current_user.id %}  <!-- Check if the current user is the organizer -->
+                    <form method="POST" action="{{ url_for('main.delete_activity', activity_id=activity.id) }}" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <a href="{{ url_for('main.update_activity', activity_id=activity.id) }}">Update</a>
+                {% endif %}
+            </li>
+        {% else %}
+            <li>No activities available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

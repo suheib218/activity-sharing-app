@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Activity{% endblock %}
+
+{% block content %}
+    <h2>Update Activity</h2>
+    <form method="POST">
+        <label for="activity_name">Activity Name:</label>
+        <input type="text" id="activity_name" name="activity_name" value="{{ activity.activity_name }}" required>
+        
+        <label for="description">Description:</label>
+        <textarea id="description" name="description">{{ activity.description }}</textarea>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="{{ activity.date_time.strftime('%Y-%m-%d') }}" required>
+        
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" value="{{ activity.date_time.strftime('%H:%M') }}" required>
+        
+        <button type="submit">Update Activity</button>
+    </form>
+{% endblock %}
