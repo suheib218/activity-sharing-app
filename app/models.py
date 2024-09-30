@@ -28,3 +28,5 @@ class Participation(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     activity_id = db.Column(db.Integer, db.ForeignKey('activity.id'), nullable=False)
     __table_args__ = (db.UniqueConstraint('user_id', 'activity_id', name='unique_participation'),)
+
+    

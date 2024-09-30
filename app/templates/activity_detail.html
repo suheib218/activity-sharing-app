@@ -3,20 +3,21 @@
 {% block title %}Activity Details{% endblock %}
 
 {% block content %}
-    <h2>{{ activity.activity_name }}</h2>
-    <p><strong>Description:</strong> {{ activity.description }}</p>
-    <p><strong>Date and Time:</strong> {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
-    <p><strong>Organizer:</strong> {{ activity.organizer.username }}</p>
-    <form method="POST" action="{{ url_for('main.join_activity', activity_id=activity.id) }}">
-        <button type="submit">Join Activity</button>
-    </form>
+    <div class="activity-detail">
+        <h2>{{ activity.activity_name }}</h2>
+        <p class="description"><strong>Description:</strong> {{ activity.description }}</p>
+        <p class="date-time"><strong>Date and Time:</strong> {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+        <p class="organizer"><strong>Organizer:</strong> {{ activity.organizer.username }}</p>
 
-    {% if activity.organizer_id == current_user.id %}  <!-- Check if the current user is the organizer -->
-        <form method="POST" action="{{ url_for('main.delete_activity', activity_id=activity.id) }}">
-            <button type="submit">Delete Activity</button>
-        </form>
-        <a href="{{ url_for('main.update_activity', activity_id=activity.id) }}">Update Activity</a>
-    {% endif %}
+        {% if activity.organizer_id == current_user.id %}  <!-- Show update and delete buttons only to the organizer -->
+        <div class="action-buttons">
+            <a href="{{ url_for('main.update_activity', activity_id=activity.id) }}" class="button">Update Activity</a>
+            <form method="POST" action="{{ url_for('main.delete_activity', activity_id=activity.id) }}" style="display:inline;">
+                <button type="submit" class="button delete">Delete Activity</button>
+            </form>
+        </div>
+        {% endif %}
 
-    <a href="{{ url_for('main.activities') }}">Back to All Activities</a>
+        <a href="{{ url_for('main.activities') }}" class="link back-link">Back to Activities</a>
+    </div>
 {% endblock %}

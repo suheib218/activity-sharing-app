@@ -6,19 +6,39 @@
     <h2>All Activities</h2>
     <ul>
         {% for activity in activities %}
-            <li>
-                <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">
-                    {{ activity.activity_name }} - {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}
-                </a>
-                {% if activity.organizer_id == current_user.id %}  <!-- Check if the current user is the organizer -->
-                    <form method="POST" action="{{ url_for('main.delete_activity', activity_id=activity.id) }}" style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                    <a href="{{ url_for('main.update_activity', activity_id=activity.id) }}">Update</a>
+        <li>
+            <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">
+                {{ activity.activity_name }} - {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}
+            </a>
+
+            <!-- Check if the user is the organizer -->
+            {% if activity.organizer_id == current_user.id %}
+                <span>You are the organizer of this activity.</span>
+            <!-- Check if the user has already joined the activity -->
+            {% elif activity.id in user_participation %}
+                <span>You have already joined this activity.</span>
+            {% else %}
+                <!-- Show the join button if not already joined and not the organizer -->
+                <a href="{{ url_for('main.join_activity', activity_id=activity.id) }}" class="link" style="display:block; margin-top: 20px; text-align: center;">Join Activity</a>
+            {% endif %}
+
+            <!-- Display participants' names -->
+            <div>
+                <strong>Participants:</strong>
+                {% if activity.participants %}
+                    <ul>
+                        {% for participant in activity.participants %}
+                        <li>{{ participant.participant.username }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <span>No participants yet.</span>
                 {% endif %}
-            </li>
+            </div>
+        </li>
         {% else %}
             <li>No activities available.</li>
         {% endfor %}
     </ul>
+    <a href="{{ url_for('main.create_activity') }}" class="link" style="display:block; margin-top: 20px; text-align: center;">Create New Activity</a>
 {% endblock %}

@@ -8,9 +8,11 @@ main = Blueprint('main', __name__)
 
 # Home page displaying upcoming activities
 @main.route('/')
+@login_required
 def index():
-    activities = Activity.query.all()
+    activities = Activity.query.all()  # Fetch all activities
     return render_template('index.html', activities=activities)
+
 
 @main.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -35,7 +37,7 @@ def create_activity():
     return render_template('create_activity.html')
 
 # Route for users to join an activity
-@main.route('/join/<int:activity_id>')
+@main.route('/join/<int:activity_id>', methods=['GET', 'POST'])
 @login_required
 def join_activity(activity_id):
     activity = Activity.query.get(activity_id)
@@ -117,7 +119,8 @@ def activity_detail(activity_id):
 @login_required
 def activities():
     activities = Activity.query.all()
-    return render_template('activities.html', activities=activities)
+    user_participation = [p.activity_id for p in Participation.query.filter_by(user_id=current_user.id).all()]  # Get activity IDs the user has joined
+    return render_template('activities.html', activities=activities, user_participation=user_participation)
 
 
 

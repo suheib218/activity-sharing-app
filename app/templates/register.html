@@ -3,7 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <h2>Register</h2>
+    <h2>Create an Account</h2>
     <form method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -16,4 +16,5 @@
         
         <button type="submit">Register</button>
     </form>
+    <p>Already have an account? <a href="{{ url_for('main.login') }}" class="link">Login here</a></p>
 {% endblock %}

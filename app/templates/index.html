@@ -6,14 +6,17 @@
     <h2>Upcoming Activities</h2>
     <ul>
         {% for activity in activities %}
-            <li>
-                <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">
-                    {{ activity.activity_name }} - {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}
-                </a>
-            </li>
+        <li>
+            <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">
+                <strong>{{ activity.activity_name }}</strong> - {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}
+            </a>
+        </li>
         {% else %}
             <li>No upcoming activities.</li>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('main.create_activity') }}">Create New Activity</a>
 {% endblock %}
+
+
+
+

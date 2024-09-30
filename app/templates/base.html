@@ -7,36 +7,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Activity Manager</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('main.activities') }}">All Activities</a></li>
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('main.login') }}">Login</a></li>
-                    <li><a href="{{ url_for('main.register') }}">Register</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
-    <main>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
+    <nav>
+        <div>
+            <a href="{{ url_for('main.index') }}">Home</a>
+            <a href="{{ url_for('main.activities') }}">Activities</a>
+            
+            {% if current_user.is_authenticated %}
+                <!-- Show Profile and Logout when the user is logged in -->
+                <a href="{{ url_for('main.profile') }}">Profile</a>
+                <a href="{{ url_for('main.logout') }}">Logout</a>
+            {% else %}
+                <!-- Show Login and Register when the user is logged out -->
+                <a href="{{ url_for('main.login') }}">Login</a>
+                <a href="{{ url_for('main.register') }}">Register</a>
             {% endif %}
-        {% endwith %}
+        </div>
+    </nav>
+
+    <div class="container">
         {% block content %}{% endblock %}
-    </main>
+    </div>
+    
     <footer>
-        <p>&copy; 2024 Activity Manager</p>
+        <p>&copy; 2024 Activity Manager. All rights reserved.</p>
     </footer>
 </body>
 </html>
