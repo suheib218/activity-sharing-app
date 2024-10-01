@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Profile of {{ user.username }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">Your Profile</h2>
+    <h2 class="text-center">Profile of {{ user.username }}</h2>
     <div class="card mt-4">
         <div class="card-body">
             <table class="table">
@@ -29,10 +29,6 @@
                         <th scope="row">Email</th>
                         <td>{{ user.email }}</td>
                     </tr>
-                    <tr></tr>
-                        <th scope="row">Password</th>
-                        <td>{{ user.password }}</td>
-                    </tr>
                     <tr>
                         <th scope="row">Country</th>
                         <td>{{ user.country }}</td>
@@ -49,8 +45,26 @@
             </table>
         </div>
     </div>
+
+    <h3 class="mt-4">Activities Joined</h3>
+    <div class="card mt-3">
+        <div class="card-body">
+            {% if activities_joined %}
+            <ul class="list-group">
+                {% for participation in activities_joined %}
+                <li class="list-group-item">
+                    {{ participation.activity.activity_name }} - {{ participation.activity.date_time.strftime('%A, %B %d, %Y, %I:%M %p') }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>No activities joined yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
     <div class="text-center mt-4">
-        <a href="{{ url_for('main.index') }}" class="btn btn-primary">Back to Home</a>
+        <a href="{{ url_for('main.activities') }}" class="btn btn-primary">Back to Activities</a>
     </div>
 </div>
 {% endblock %}

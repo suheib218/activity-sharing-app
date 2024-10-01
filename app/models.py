@@ -5,13 +5,22 @@ from datetime import datetime
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(150), nullable=False)
+    lastname = db.Column(db.String(150), nullable=False)
+    mobilenumber = db.Column(db.String(20), nullable=False)  # Changed to String for country code support
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+    country = db.Column(db.String(100), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    street = db.Column(db.String(200), nullable=False)
+    
     # Relationship with activities created by user
     activities = db.relationship('Activity', backref='organizer', lazy=True)
     # Relationship with activities the user has joined
     joined_activities = db.relationship('Participation', backref='participant', lazy=True)
+
+ 
 
 
 class Activity(db.Model):

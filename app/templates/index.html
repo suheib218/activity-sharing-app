@@ -3,20 +3,18 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h2>Upcoming Activities</h2>
-    <ul>
+<div class="container mt-5">
+    <h2 class="text-center">Upcoming Activities</h2>
+    <ul class="list-group mt-4">
         {% for activity in activities %}
-        <li>
-            <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}">
-                <strong>{{ activity.activity_name }}</strong> - {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}
+        <li class="list-group-item">
+            <a href="{{ url_for('main.activity_detail', activity_id=activity.id) }}" class="text-decoration-none text-dark">
+                <strong>{{ activity.activity_name }}</strong> - {{ activity.date_time.strftime('%A, %B %d, %Y, %I:%M %p') }}
             </a>
         </li>
         {% else %}
-            <li>No upcoming activities.</li>
+        <li class="list-group-item text-center">No upcoming activities.</li>
         {% endfor %}
     </ul>
+</div>
 {% endblock %}
-
-
-
-

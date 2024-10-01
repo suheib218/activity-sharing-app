@@ -3,20 +3,32 @@
 {% block title %}Update Activity{% endblock %}
 
 {% block content %}
-    <h2>Update Activity</h2>
-    <form method="POST">
-        <label for="activity_name">Activity Name:</label>
-        <input type="text" id="activity_name" name="activity_name" value="{{ activity.activity_name }}" required>
-        
-        <label for="description">Description:</label>
-        <textarea id="description" name="description">{{ activity.description }}</textarea>
-        
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" value="{{ activity.date_time.strftime('%Y-%m-%d') }}" required>
-        
-        <label for="time">Time:</label>
-        <input type="time" id="time" name="time" value="{{ activity.date_time.strftime('%H:%M') }}" required>
-        
-        <button type="submit">Update Activity</button>
+<div class="container mt-5">
+    <h2 class="text-center">Update Activity</h2>
+    <form method="POST" class="mt-4">
+        <div class="form-group">
+            <label for="activity_name">Activity Name:</label>
+            <input type="text" class="form-control" id="activity_name" name="activity_name" value="{{ activity.activity_name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="4">{{ activity.description }}</textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" value="{{ activity.date_time.strftime('%Y-%m-%d') }}" required>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="time">Time:</label>
+                <input type="time" class="form-control" id="time" name="time" value="{{ activity.date_time.strftime('%H:%M') }}" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Update Activity</button>
     </form>
+</div>
 {% endblock %}

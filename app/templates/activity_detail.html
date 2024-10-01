@@ -3,21 +3,41 @@
 {% block title %}Activity Details{% endblock %}
 
 {% block content %}
-    <div class="activity-detail">
-        <h2>{{ activity.activity_name }}</h2>
-        <p class="description"><strong>Description:</strong> {{ activity.description }}</p>
-        <p class="date-time"><strong>Date and Time:</strong> {{ activity.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
-        <p class="organizer"><strong>Organizer:</strong> {{ activity.organizer.username }}</p>
+<div class="container mt-5 activity-detail">
+  <h2 class="text-center">{{ activity.activity_name }}</h2>
+  <p class="description">
+    <strong>Description:</strong> {{ activity.description }}
+  </p>
+  <p class="date-time">
+    <strong>Date and Time:</strong> {{ activity.date_time.strftime('%B %d, %Y %I:%M %p') }} <!-- Changed to user-friendly format -->
+  </p>
+  <p class="organizer">
+    <strong>Organizer:</strong> {{ activity.organizer.username }}
+  </p>
 
-        {% if activity.organizer_id == current_user.id %}  <!-- Show update and delete buttons only to the organizer -->
-        <div class="action-buttons">
-            <a href="{{ url_for('main.update_activity', activity_id=activity.id) }}" class="button">Update Activity</a>
-            <form method="POST" action="{{ url_for('main.delete_activity', activity_id=activity.id) }}" style="display:inline;">
-                <button type="submit" class="button delete">Delete Activity</button>
-            </form>
-        </div>
-        {% endif %}
-
-        <a href="{{ url_for('main.activities') }}" class="link back-link">Back to Activities</a>
+  {% if current_user.is_authenticated %}
+    {% if activity.organizer_id == current_user.id %}
+    <!-- Show update and delete buttons only to the organizer -->
+    <div class="action-buttons mb-3">
+      <a href="{{ url_for('main.update_activity', activity_id=activity.id) }}" class="btn btn-primary">Update Activity</a>
+      <form method="POST" action="{{ url_for('main.delete_activity', activity_id=activity.id) }}" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Delete Activity</button>
+      </form>
     </div>
+    {% else %}
+      <!-- User is logged in but not the organizer, show the "Join" button -->
+      {% if activity.id not in user_participation %}
+        <a href="{{ url_for('main.join_activity', activity_id=activity.id) }}" class="btn btn-primary">Join Activity</a>
+      {% else %}
+        <span class="badge bg-secondary">You have already joined this activity.</span>
+      {% endif %}
+    {% endif %}
+  {% else %}
+  <!-- If the user is not logged in, show a login button -->
+  <div class="action-buttons mb-3">
+    <p class="text-muted">You must be logged in to join or create an activity.</p>
+    <a href="{{ url_for('main.activities') }}" class="btn btn-primary">Login to Join or Create Activity</a>
+  </div>
+  {% endif %}
+
 {% endblock %}
