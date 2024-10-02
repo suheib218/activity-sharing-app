@@ -6,7 +6,7 @@ The Activity Sharing App enables users to create, share, and join activities wit
 ## Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/activity-sharing-app.git
+   git clone https://github.com/suheib218/activity-sharing-app.git
    cd activity-sharing-app
    ```
 
