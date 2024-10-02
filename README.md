@@ -4,9 +4,11 @@
 The Activity Sharing App enables users to create, share, and join activities with friends. It is built using Flask and SQLite, providing a simple, intuitive interface for spontaneous event planning. Users can register, log in, create activities, and join existing ones.
 
 ## Setup Instructions
-1. Clone the repository.
-git clone https://github.com/suheib218/activity-sharing-app.git
-cd activity-sharing-app
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/activity-sharing-app.git
+   cd activity-sharing-app
+   ```
 
 2. Create a virtual environment:
    ```bash
