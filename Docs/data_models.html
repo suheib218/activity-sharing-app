@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Models | Activity Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Link to your custom CSS -->
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <h4 class="mt-4">Activity Manager</h4>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/project_progression.html"
+                  >Project Progression</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/sources.html">Sources</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/schedule.html">Schedule</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/valueproposition.html"
+                  >Value Proposition</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/technicaldocs.html"
+                  >Technical Docs</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/developmentpriorities_mvp.html"
+                  >Development Priorities and MVP</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/team_evaluation.html"
+                  >Team Evaluation</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/ui_components.html">UI Components</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h3>Activity Manager Documentation</h3>
+          </div>
+
+          <h1>Activity Manager Data Model</h1>
+
+          <p>
+            This document describes the data model for the Activity Manager app.
+            The data is structured relationally using SQLAlchemy ORM models.
+            Each entity is represented by a table, and relationships are defined
+            between them.
+          </p>
+
+          <h2>Users</h2>
+          <p>
+            The <strong>Users</strong> table stores information about users who
+            can create and join activities.
+          </p>
+          <pre>
+{
+  "id": "integer (primary key)",
+  "username": "string (150 characters, unique, not nullable)",
+  "email": "string (150 characters, unique, not nullable)",
+  "password": "string (150 characters, not nullable)",
+  "activities": "relationship to Activity (one-to-many)",
+  "joined_activities": "relationship to Participation (one-to-many)"
+}
+</pre
+          >
+
+          <h2>Activities</h2>
+          <p>
+            The <strong>Activities</strong> table contains information about
+            activities created by users.
+          </p>
+          <pre>
+{
+  "id": "integer (primary key)",
+  "activity_name": "string (150 characters, not nullable)",
+  "description": "string (300 characters, optional)",
+  "date_time": "datetime (not nullable)",
+  "organizer_id": "integer (foreign key to Users.id, not nullable)",
+  "participants": "relationship to Participation (one-to-many)"
+}
+</pre
+          >
+
+          <h2>Participation</h2>
+          <p>
+            The <strong>Participation</strong> table records which users have
+            joined which activities, ensuring that a user cannot join the same
+            activity more than once.
+          </p>
+          <pre>
+{
+  "id": "integer (primary key)",
+  "user_id": "integer (foreign key to Users.id, not nullable)",
+  "activity_id": "integer (foreign key to Activities.id, not nullable)",
+  "unique_participation": "constraint to ensure unique participation (user_id + activity_id)"
+}
+</pre
+          >
+
+          <h2>Relationships</h2>
+          <ul>
+            <li>
+              <strong>User to Activity:</strong> A user can create multiple
+              activities. This is a one-to-many relationship.
+            </li>
+            <li>
+              <strong>User to Participation:</strong> A user can join multiple
+              activities, recorded in the Participation table.
+            </li>
+            <li>
+              <strong>Activity to Participation:</strong> An activity can have
+              multiple participants. This is a one-to-many relationship.
+            </li>
+          </ul>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
